@@ -19,25 +19,21 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '22'
-          cache: 'npm'
 
-      - name: Install Dependencies
-        working-directory: modules/presence-sms
-        run: npm ci --legacy-peer-deps
-
+      # Standalone repos have the module at the ROOT: no npm deps are needed
+      # to build the distributable (deps are symlinked host-side, excluded
+      # from the zip), so there is no `npm ci` and no lockfile requirement.
       - name: Generate Distribution ZIP
-        working-directory: modules/presence-sms
         run: node scripts/install.mjs --zip
 
-      - name: List Generated Files
-        working-directory: modules/presence-sms
-        run: ls -la *.zip
+      - name: Collect ZIP into workspace
+        run: mv -f ../*.zip . && ls -la *.zip
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
         with:
-          files: modules/presence-sms/*.zip
+          files: '*.zip'
           generate_release_notes: true
-          prerelease: ${{ contains(github.ref_name, '-beta') || contains(github.ref_name, '-alpha') }}
+          prerelease: ${ contains(github.ref_name, '-beta') || contains(github.ref_name, '-alpha') }
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${ secrets.GITHUB_TOKEN }
