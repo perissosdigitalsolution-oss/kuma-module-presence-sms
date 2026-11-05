@@ -6,7 +6,7 @@ function defaultApiBase(): string {
     const host = window.location.hostname;
     const isProxyServed = host === 'localhost' || host === '127.0.0.1' || host.startsWith('192.168.') || host.startsWith('10.');
     if (isProxyServed) return '/api/v1/modules/presence';
-    return 'https://kuma-school-backend-production.kumaschool88.workers.dev/api/v1/modules/presence';
+    return '(import.meta.env.VITE_API_URL ? import.meta.env.VITE_API_URL.replace(/\/api\/v1$/, '') : 'https://kuma-school-backend-production.kumaschool88.workers.dev')/api/v1/modules/presence';
 }
 const DEFAULT_API_BASE = defaultApiBase();
 
