@@ -1,0 +1,44 @@
+{
+  "modules": [
+    {
+      "id": "kuma-module-presence-sms",
+      "name": "Pointage & Notifications (Côte d'Ivoire)",
+      "version": "1.0.0",
+      "category": "attendance",
+      "country": "CI",
+      "target": "primary",
+      "contract": "v1",
+      "repository": "https://github.com/perissosdigitalsolution-oss/kuma-module-presence-sms",
+      "description": "Pointage électronique des présences et notifications automatiques aux parents. Bridge mode vers les tables core.",
+      "tags": [
+        "presence",
+        "attendance",
+        "notifications",
+        "rfid",
+        "sms",
+        "whatsapp"
+      ],
+      "capabilities": {
+        "hasBridgeMode": true,
+        "supportsRfid": true,
+        "supportsMobile": true,
+        "supportsSmsNotifications": true,
+        "supportsWhatsappNotifications": true,
+        "standaloneSupported": true
+      },
+      "bridgeRoutes": {
+        "absences": "POST /api/v1/modules/presence/v1/detect-absences",
+        "notifications": "POST /api/v1/modules/presence/v1/notification"
+      },
+      "coreTables": {
+        "mirror": [
+          "attendance",
+          "activity_logs"
+        ]
+      },
+      "releaseDate": "2026-11-04T12:30:00.000Z",
+      "author": "perissosdigitalsolution-oss",
+      "license": "MIT"
+    }
+  ]
+}

@@ -1,0 +1,56 @@
+{
+  "id": "kuma-module-presence-sms",
+  "name": "KUMA Module — Pointage & Notifications (Côte d'Ivoire) v1.0.0",
+  "version": "1.0.0",
+  "apiVersion": "v1",
+  "country": "CI",
+  "countryLabel": "Côte d'Ivoire",
+  "description": "Pointage électronique des présences (RFID/Mobile) et notifications automatiques aux parents. Module autonome avec bridge mode.",
+  "mountPath": "/api/v1/modules/presence",
+  "entry": {
+    "server": "server/presenceModule.ts",
+    "standalone": "server/standalone/index.ts",
+    "frontend": "frontend/PresenceScanner.tsx",
+    "schema": "server/schema.sql"
+  },
+  "requires": {
+    "hono": ">=4.0.0",
+    "d1Binding": "DB",
+    "authContextVars": [
+      "tenantId",
+      "jwtPayload"
+    ]
+  },
+  "permissions": {
+    "admin": [
+      "read",
+      "write",
+      "import",
+      "delete"
+    ],
+    "teacher": [
+      "read",
+      "write",
+      "scan"
+    ],
+    "student": [
+      "read_own"
+    ],
+    "parent": [
+      "read"
+    ]
+  },
+  "capabilities": {
+    "hasBridgeMode": true,
+    "supportsRfid": true,
+    "supportsMobile": true,
+    "supportsSmsNotifications": true,
+    "supportsWhatsappNotifications": true,
+    "standaloneSupported": true
+  },
+  "dataFiles": [],
+  "compatibility": "Version API v1 stable. Les routes sous /v1/modules/presence sont indépendantes du noyau.",
+  "author": "perissosdigitalsolution-oss",
+  "license": "MIT",
+  "repository": "https://github.com/perissosdigitalsolution-oss/kuma-module-presence-sms"
+}
