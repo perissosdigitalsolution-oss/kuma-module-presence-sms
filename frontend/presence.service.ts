@@ -1,7 +1,14 @@
 // ============================================================================
 // KUMA Module: Pointage — API Client Autonome
 // ============================================================================
-const DEFAULT_API_BASE = '/api/v1/modules/presence';
+function defaultApiBase(): string {
+    if (typeof window === 'undefined') return '/api/v1/modules/presence';
+    const host = window.location.hostname;
+    const isProxyServed = host === 'localhost' || host === '127.0.0.1' || host.startsWith('192.168.') || host.startsWith('10.');
+    if (isProxyServed) return '/api/v1/modules/presence';
+    return 'https://kuma-school-backend-production.kumaschool88.workers.dev/api/v1/modules/presence';
+}
+const DEFAULT_API_BASE = defaultApiBase();
 
 interface ScanData {
     studentId: string;
