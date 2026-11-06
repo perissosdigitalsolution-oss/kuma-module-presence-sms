@@ -6,10 +6,13 @@ import { PresenceService } from './presence.service';
 
 interface Props {
     lang?: 'fr' | 'en';
+    /** Explicit module API base (host injects it). */
     apiBase?: string;
+    /** Token provider (host injects it). */
+    getToken?: () => string | null;
 }
 
-export default function PresenceScanner({ lang = 'fr', apiBase }: Props) {
+export default function PresenceScanner({ lang = 'fr', apiBase, getToken }: Props) {
     const [loading, setLoading] = React.useState(false);
     const [message, setMessage] = React.useState<string | null>(null);
 
@@ -17,20 +20,20 @@ export default function PresenceScanner({ lang = 'fr', apiBase }: Props) {
         const studentId = prompt(lang === 'fr' ? 'ID Élève:' : 'Student ID:');
         const classId = prompt(lang === 'fr' ? 'ID Classe:' : 'Class ID:');
         const sessionType = lang === 'fr' ? 'entry' : 'entry';
-        
+
         if (!studentId || !classId) return;
 
         setLoading(true);
         setMessage(null);
-        
+
         try {
+            // apiBase / getToken are OPTIONS, never part of the scan payload.
             const res = await PresenceService.scan({
                 studentId,
                 classId,
                 sessionType: 'entry' as any,
                 method: 'mobile',
-                apiBase
-            });
+            }, { apiBase, getToken });
             setMessage(lang === 'fr' ? 'Pointage enregistré' : 'Scan recorded');
         } catch (e) {
             setMessage(lang === 'fr' ? 'Erreur de pointage' : 'Scan failed');
