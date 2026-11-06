@@ -55,7 +55,7 @@ interface ScanData {
 
 export const PresenceService = {
     async scan(data: ScanData, opts?: PresenceOptions): Promise<{ success: boolean; sessionId: string }> {
-        const res = await fetch(`${resolveApiBase(opts?.apiBase)}/scan`, {
+        const res = await fetch(`${resolveApiBase(opts?.apiBase)}/v1/scan`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -81,7 +81,7 @@ export const PresenceService = {
     },
 
     async detectAbsences(opts?: PresenceOptions): Promise<{ success: boolean; detectedCount: number }> {
-        const res = await fetch(`${resolveApiBase(opts?.apiBase)}/detect-absences`, {
+        const res = await fetch(`${resolveApiBase(opts?.apiBase)}/v1/detect-absences`, {
             method: 'POST',
             headers: { 'Authorization': `Bearer ${resolveToken(opts?.getToken)}` }
         });
@@ -94,7 +94,7 @@ export const PresenceService = {
         message: string;
         sentVia?: 'sms' | 'whatsapp' | 'email' | 'all';
     }, opts?: PresenceOptions): Promise<{ success: boolean; notificationId: string }> {
-        const res = await fetch(`${resolveApiBase(opts?.apiBase)}/notification`, {
+        const res = await fetch(`${resolveApiBase(opts?.apiBase)}/v1/notification`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -106,7 +106,7 @@ export const PresenceService = {
     },
 
     async getSchedule(classId: string, opts?: PresenceOptions): Promise<any[]> {
-        const res = await fetch(`${resolveApiBase(opts?.apiBase)}/schedule/${classId}`, {
+        const res = await fetch(`${resolveApiBase(opts?.apiBase)}/v1/schedule/${classId}`, {
             headers: { 'Authorization': `Bearer ${resolveToken(opts?.getToken)}` }
         });
         const data = await res.json();
@@ -114,7 +114,7 @@ export const PresenceService = {
     },
 
     async saveSchedule(classId: string, blocks: { dayOfWeek: number; startTime: string; endTime: string; sessionName?: string }[], opts?: PresenceOptions): Promise<{ success: boolean; inserted: number }> {
-        const res = await fetch(`${resolveApiBase(opts?.apiBase)}/schedule/${classId}`, {
+        const res = await fetch(`${resolveApiBase(opts?.apiBase)}/v1/schedule/${classId}`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
